@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-06-04 11:13:27 +0900
+# LastModified: 2018-06-04 11:22:09 +0900
 #
 
 
@@ -66,7 +66,7 @@ def main():
     # Call the Calendar API
     Min = datetime(2018, 5, 11).isoformat() + 'Z'
     Max = datetime(2018, 6, 10).isoformat() + 'Z'
-    print('income from times rent a car')
+
     events_result = service.events().list(calendarId='primary', timeMin=Min,
                                           timeMax=Max, singleEvents=True, orderBy='startTime').execute()
     events = events_result.get('items', [])
