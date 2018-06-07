@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-06-06 12:35:25 +0900
+# LastModified: 2018-06-07 14:19:20 +0900
 #
 
 
@@ -53,8 +53,10 @@ def main():
 
     working = Working(Data)
 
+    print(args.month)
     for i in range(len(keyword.columns)):
-        working.get_working(keyword.iloc[0, i], keyword.iloc[1, i])
+        name, income = working.get_working(keyword.iloc[0, i], keyword.iloc[1, i])
+        print("{} : {}".format(name, income))
 
 
 if __name__ == "__main__":

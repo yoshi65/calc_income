@@ -3,7 +3,7 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-06-04 11:50:41 +0900
+# LastModified: 2018-06-07 14:19:48 +0900
 #
 
 
@@ -51,4 +51,4 @@ class Working():
                 end[:-6], self.time_format) - datetime.strptime(start[:-6], self.time_format)
             income += self.calc_income(tdelta, float(hour_wage))
 
-        print("{} : {}".format(name, int(income)))
+        return [name, int(income)]
