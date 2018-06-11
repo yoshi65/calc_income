@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-06-07 14:19:20 +0900
+# LastModified: 2018-06-11 09:36:24 +0900
 #
 
 
@@ -33,7 +33,7 @@ def main():
     # variable
     data_path = os.path.join(os.path.abspath(
         os.path.dirname(__file__)), 'jobs.csv')
-    keyword = pd.read_csv(data_path, header=None)
+    keyword = pd.read_csv(data_path)
     year = int(re.sub(r"-.*$", "", args.month))
     month = int(re.sub(r"^.*-", "", args.month))
 
@@ -42,20 +42,11 @@ def main():
     creds = store.get()
     service = build('calendar', 'v3', http=creds.authorize(Http()))
 
-    # Call the Calendar API
-    Min = datetime(year, month, 11).isoformat() + 'Z'
-    Max = datetime(year, (month + 1)%12, 10).isoformat() + 'Z'
-
-    events_result = service.events().list(calendarId='primary', timeMin=Min,
-                                          timeMax=Max, singleEvents=True, orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    Data = pd.DataFrame(events)
-
-    working = Working(Data)
+    working = Working(service, year, month)
 
     print(args.month)
-    for i in range(len(keyword.columns)):
-        name, income = working.get_working(keyword.iloc[0, i], keyword.iloc[1, i])
+    for i in range(len(keyword.index)):
+        name, income = working.get_working(keyword.loc[i, 'name'], keyword.loc[i, 'hour_wage'], keyword.loc[i, 'start_day'])
         print("{} : {}".format(name, income))
 
 

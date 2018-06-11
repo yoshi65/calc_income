@@ -3,7 +3,7 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-06-07 14:19:48 +0900
+# LastModified: 2018-06-11 09:38:51 +0900
 #
 
 
@@ -11,14 +11,18 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-from datetime import datetime
+from apiclient.discovery import build
+from datetime import datetime, timedelta
+
 
 class Working():
 
-    def __init__(self, Data):
+    def __init__(self, service, year, month):
         # variable
-        self.Data = Data
+        self.service = service
         self.time_format = "%Y-%m-%d %H:%M:%S"
+        self.year = year
+        self.month = month
 
     def calc_income(self, tdelta, hour_wage):
         # variable
@@ -35,12 +39,21 @@ class Working():
 
         return hour_wage * working_hours
 
-    def get_working(self, name, hour_wage):
+    def get_working(self, name, hour_wage, start_day):
         # variable
         income = 0
+        Min = datetime(self.year, self.month, start_day).isoformat() + 'Z'
+        Max = (datetime(self.year, (self.month + 1) % 12, start_day) -
+               timedelta(days=1)).isoformat() + 'Z'
 
-        Data = self.Data[self.Data['summary']
-                              == name].reset_index(drop=True)
+        # Call the Calendar API
+        events_result = self.service.events().list(calendarId='primary', timeMin=Min,
+                                                   timeMax=Max, singleEvents=True, orderBy='startTime').execute()
+        events = events_result.get('items', [])
+
+        # Convert to DataFormat
+        Data = pd.DataFrame(events)
+        Data = Data[Data['summary'] == name].reset_index(drop=True)
 
         for i in range(len(Data.index)):
             start = Data.loc[i, 'start'].get(
