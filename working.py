@@ -3,7 +3,7 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-06-11 09:38:51 +0900
+# LastModified: 2018-06-13 10:40:30 +0900
 #
 
 
@@ -39,7 +39,7 @@ class Working():
 
         return hour_wage * working_hours
 
-    def get_working(self, name, hour_wage, start_day):
+    def get_working(self, name, hour_wage, start_day, transport_expense):
         # variable
         income = 0
         Min = datetime(self.year, self.month, start_day).isoformat() + 'Z'
@@ -62,6 +62,6 @@ class Working():
                 'dateTime', Data.loc[i, 'end'].get('date')).replace("T", " ")
             tdelta = datetime.strptime(
                 end[:-6], self.time_format) - datetime.strptime(start[:-6], self.time_format)
-            income += self.calc_income(tdelta, float(hour_wage))
+            income += self.calc_income(tdelta, float(hour_wage)) + transport_expense * 2
 
         return [name, int(income)]
