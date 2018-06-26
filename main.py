@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-06-13 10:39:56 +0900
+# LastModified: 2018-06-26 22:05:20 +0900
 #
 
 
@@ -20,6 +20,7 @@ from datetime import datetime
 
 # myfunc
 from working import Working
+from graph import Graph
 
 
 def main():
@@ -28,6 +29,8 @@ def main():
         description='calculation income from google calendar')
     parser.add_argument('-m', '--month', metavar='YYYY-MM', action='store',
                         nargs='?', help='choice month', default=datetime.now().strftime("%Y-%m"))
+    parser.add_argument('-g', '--graph', metavar='YYYY', action='store',
+                        nargs='?', help='choice year for graph', default=datetime.now().strftime("%Y"))
     args = parser.parse_args()
 
     # variable
@@ -48,6 +51,10 @@ def main():
     for i in range(len(keyword.index)):
         name, income = working.get_working(keyword.loc[i, 'name'], keyword.loc[i, 'hour_wage'], keyword.loc[i, 'start_day'], keyword.loc[i, 'transport_expense'])
         print("{} : {}".format(name, income))
+
+    # make graph
+    graph = Graph(service, keyword)
+    graph.make_graph(int(args.graph))
 
 
 if __name__ == "__main__":
