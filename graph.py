@@ -3,7 +3,7 @@
 #
 # FileName: 	graph
 # CreatedDate:  2018-06-26 16:52:53 +0900
-# LastModified: 2018-06-26 22:13:01 +0900
+# LastModified: 2018-06-29 17:42:05 +0900
 #
 
 
@@ -46,13 +46,18 @@ class Graph():
         output_name = os.path.join(
             self.output_path, "income_{}.pdf".format(str(year)))
         month_list = [12] + list(range(1, 12))
+        month_list_label = range(1, 13)
 
         # make income list equal the number of jobs
         income_list = [[] for i in range(0, len(self.keyword.index))]
 
         # arrange data
         for month in month_list:
-            working = Working(self.service, year, month)
+            if month == 12:
+                working = Working(self.service, year - 1, month)
+            else:
+                working = Working(self.service, year, month)
+
             for i in range(0, len(self.keyword.index)):
                 name, income = working.get_working(
                     self.keyword.loc[i, 'name'], self.keyword.loc[i, 'hour_wage'], self.keyword.loc[i, 'start_day'], self.keyword.loc[i, 'transport_expense'])
@@ -66,7 +71,7 @@ class Graph():
 
         before = [ 0 for i in range(0, len(income_list[0])) ]
         for i in range(0, len(self.keyword.index)):
-            ax.bar(ran, income_list[i], width=width, label=self.keyword.loc[i, 'id'], bottom=before)
+            ax.bar(ran, income_list[i], width=width, label="{} {}yen".format(self.keyword.loc[i, 'id'], str(sum(income_list[i]))), bottom=before)
             if sum(before) == 0:
                 before = income_list[i]
             else:
@@ -75,7 +80,7 @@ class Graph():
         plt.xlabel(r"month", fontsize=16)
         plt.ylabel(r"money [yen]", fontsize=16)
         plt.legend(loc="best")
-        plt.xticks(ran + width, month_list)
+        plt.xticks(ran, month_list_label)
         plt.tight_layout()
         plt.savefig(output_name)
         plt.close(fig)
