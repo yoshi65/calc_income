@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-06-26 22:05:20 +0900
+# LastModified: 2018-07-05 17:59:20 +0900
 #
 
 
@@ -30,7 +30,7 @@ def main():
     parser.add_argument('-m', '--month', metavar='YYYY-MM', action='store',
                         nargs='?', help='choice month', default=datetime.now().strftime("%Y-%m"))
     parser.add_argument('-g', '--graph', metavar='YYYY', action='store',
-                        nargs='?', help='choice year for graph', default=datetime.now().strftime("%Y"))
+                        nargs='?', help='choice year for graph', const=datetime.now().strftime("%Y"))
     args = parser.parse_args()
 
     # variable
@@ -53,8 +53,9 @@ def main():
         print("{} : {}".format(name, income))
 
     # make graph
-    graph = Graph(service, keyword)
-    graph.make_graph(int(args.graph))
+    if args.graph is not None:
+        graph = Graph(service, keyword)
+        graph.make_graph(int(args.graph))
 
 
 if __name__ == "__main__":
