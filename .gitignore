@@ -1,7 +1,6 @@
 # Object files
-*.pdf
-*.json
-*.csv
+input
+output
 # from MacOSX
 .DS_Store
 # Emacs backup files

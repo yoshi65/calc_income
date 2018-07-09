@@ -3,7 +3,7 @@
 #
 # FileName: 	quickstart
 # CreatedDate:  2018-06-02 13:31:44 +0900
-# LastModified: 2018-06-02 13:34:06 +0900
+# LastModified: 2018-07-06 11:13:12 +0900
 #
 # https://developers.google.com/calendar/quickstart/python?hl=ja#step_3_set_up_the_sample
 #
@@ -21,10 +21,10 @@ import datetime
 
 # Setup the Calendar API
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
-store = file.Storage('credentials.json')
+store = file.Storage('./input/credentials.json')
 creds = store.get()
 if not creds or creds.invalid:
-    flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+    flow = client.flow_from_clientsecrets('./input/client_secret.json', SCOPES)
     creds = tools.run_flow(flow, store)
 service = build('calendar', 'v3', http=creds.authorize(Http()))
 

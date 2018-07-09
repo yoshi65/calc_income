@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-07-05 17:59:20 +0900
+# LastModified: 2018-07-06 11:11:16 +0900
 #
 
 
@@ -34,14 +34,16 @@ def main():
     args = parser.parse_args()
 
     # variable
-    data_path = os.path.join(os.path.abspath(
-        os.path.dirname(__file__)), 'jobs.csv')
-    keyword = pd.read_csv(data_path)
+    input_path = os.path.join(os.path.abspath(
+        os.path.dirname(__file__)), 'input')
+    jobs_path = os.path.join(input_path, 'jobs.csv')
+    credentials_path = os.path.join(input_path, 'credentials.json')
+    keyword = pd.read_csv(jobs_path)
     year = int(re.sub(r"-.*$", "", args.month))
     month = int(re.sub(r"^.*-", "", args.month))
 
     # Setup the Calendar API
-    store = file.Storage('credentials.json')
+    store = file.Storage(credentials_path)
     creds = store.get()
     service = build('calendar', 'v3', http=creds.authorize(Http()))
 
