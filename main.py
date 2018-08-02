@@ -3,7 +3,7 @@
 #
 # FileName: 	calc_income
 # CreatedDate:  2018-06-02 13:44:24 +0900
-# LastModified: 2018-07-06 11:11:16 +0900
+# LastModified: 2018-08-02 12:06:24 +0900
 #
 
 
@@ -51,7 +51,8 @@ def main():
 
     print(args.month)
     for i in range(len(keyword.index)):
-        name, income = working.get_working(keyword.loc[i, 'name'], keyword.loc[i, 'hour_wage'], keyword.loc[i, 'start_day'], keyword.loc[i, 'transport_expense'])
+        name, income = working.get_working(
+            keyword.loc[i, 'name'], keyword.loc[i, 'hour_wage'], keyword.loc[i, 'start_day'], keyword.loc[i, 'transport_expense'])
         print("{} : {}".format(name, income))
 
     # make graph

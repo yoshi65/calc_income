@@ -3,7 +3,7 @@
 #
 # FileName: 	graph
 # CreatedDate:  2018-06-26 16:52:53 +0900
-# LastModified: 2018-06-29 17:42:05 +0900
+# LastModified: 2018-08-02 12:06:41 +0900
 #
 
 
@@ -69,9 +69,10 @@ class Graph():
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
 
-        before = [ 0 for i in range(0, len(income_list[0])) ]
+        before = [0 for i in range(0, len(income_list[0]))]
         for i in range(0, len(self.keyword.index)):
-            ax.bar(ran, income_list[i], width=width, label="{} {}yen".format(self.keyword.loc[i, 'id'], str(sum(income_list[i]))), bottom=before)
+            ax.bar(ran, income_list[i], width=width, label="{} {}yen".format(
+                self.keyword.loc[i, 'id'], str(sum(income_list[i]))), bottom=before)
             if sum(before) == 0:
                 before = income_list[i]
             else:
