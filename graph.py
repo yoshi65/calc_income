@@ -3,25 +3,19 @@
 #
 # FileName: 	graph
 # CreatedDate:  2018-06-26 16:52:53 +0900
-# LastModified: 2018-08-02 12:06:41 +0900
+# LastModified: 2018-09-26 13:36:43 +0900
 #
 
-
 import os
-import sys
-import numpy as np
-import pandas as pd
-from apiclient.discovery import build
+
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-from matplotlib import ticker
+import numpy as np
 
 # myfunc
 from working import Working
 
 
 class Graph():
-
     def __init__(self, service, keyword):
         # read argument
         self.service = service
@@ -43,8 +37,8 @@ class Graph():
 
     def make_graph(self, year):
         # variable
-        output_name = os.path.join(
-            self.output_path, "income_{}.pdf".format(str(year)))
+        output_name = os.path.join(self.output_path, "income_{}.pdf".format(
+            str(year)))
         month_list = [12] + list(range(1, 12))
         month_list_label = range(1, 13)
 
@@ -60,7 +54,10 @@ class Graph():
 
             for i in range(0, len(self.keyword.index)):
                 name, income = working.get_working(
-                    self.keyword.loc[i, 'name'], self.keyword.loc[i, 'hour_wage'], self.keyword.loc[i, 'start_day'], self.keyword.loc[i, 'transport_expense'])
+                    self.keyword.loc[i, 'name'],
+                    self.keyword.loc[i, 'hour_wage'],
+                    self.keyword.loc[i, 'start_day'],
+                    self.keyword.loc[i, 'transport_expense'])
                 income_list[i].append(income)
 
         # draw graph
@@ -71,8 +68,13 @@ class Graph():
 
         before = [0 for i in range(0, len(income_list[0]))]
         for i in range(0, len(self.keyword.index)):
-            ax.bar(ran, income_list[i], width=width, label="{} {}yen".format(
-                self.keyword.loc[i, 'id'], str(sum(income_list[i]))), bottom=before)
+            ax.bar(
+                ran,
+                income_list[i],
+                width=width,
+                label="{} {}yen".format(self.keyword.loc[i, 'id'],
+                                        str(sum(income_list[i]))),
+                bottom=before)
             if sum(before) == 0:
                 before = income_list[i]
             else:

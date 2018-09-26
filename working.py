@@ -3,20 +3,15 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-06-14 14:32:10 +0900
+# LastModified: 2018-09-26 13:37:11 +0900
 #
 
-
-import os
-import sys
-import numpy as np
-import pandas as pd
-from apiclient.discovery import build
 from datetime import datetime, timedelta
+
+import pandas as pd
 
 
 class Working():
-
     def __init__(self, service, year, month):
         # variable
         self.service = service
@@ -52,8 +47,12 @@ class Working():
                timedelta(days=1)).isoformat() + 'Z'
 
         # Call the Calendar API
-        events_result = self.service.events().list(calendarId='primary', timeMin=Min,
-                                                   timeMax=Max, singleEvents=True, orderBy='startTime').execute()
+        events_result = self.service.events().list(
+            calendarId='primary',
+            timeMin=Min,
+            timeMax=Max,
+            singleEvents=True,
+            orderBy='startTime').execute()
         events = events_result.get('items', [])
 
         # Convert to DataFormat
@@ -62,12 +61,14 @@ class Working():
 
         for i in range(len(Data.index)):
             start = Data.loc[i, 'start'].get(
-                'dateTime', Data.loc[i, 'start'].get('date')).replace("T", " ")
+                'dateTime', Data.loc[i, 'start'].get('date')).replace(
+                    "T", " ")
             end = Data.loc[i, 'end'].get(
                 'dateTime', Data.loc[i, 'end'].get('date')).replace("T", " ")
-            tdelta = datetime.strptime(
-                end[:-6], self.time_format) - datetime.strptime(start[:-6], self.time_format)
-            income += self.calc_income(tdelta,
-                                       float(hour_wage)) + transport_expense * 2
+            tdelta = datetime.strptime(end[:-6],
+                                       self.time_format) - datetime.strptime(
+                                           start[:-6], self.time_format)
+            income += self.calc_income(
+                tdelta, float(hour_wage)) + transport_expense * 2
 
         return [name, int(income)]
