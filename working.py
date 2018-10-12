@@ -3,10 +3,10 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-09-26 13:37:11 +0900
+# LastModified: 2018-10-12 11:42:26 +0900
 #
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pandas as pd
 
@@ -43,8 +43,7 @@ class Working():
             year = self.year + 1
             month = 1
         Min = datetime(self.year, self.month, start_day).isoformat() + 'Z'
-        Max = (datetime(year, month, start_day) -
-               timedelta(days=1)).isoformat() + 'Z'
+        Max = datetime(year, month, start_day).isoformat() + 'Z'
 
         # Call the Calendar API
         events_result = self.service.events().list(
