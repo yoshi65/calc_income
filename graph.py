@@ -3,7 +3,7 @@
 #
 # FileName: 	graph
 # CreatedDate:  2018-06-26 16:52:53 +0900
-# LastModified: 2018-09-26 13:36:43 +0900
+# LastModified: 2019-06-13 10:13:06 +0900
 #
 
 import os
@@ -11,7 +11,6 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-# myfunc
 from working import Working
 
 
@@ -37,8 +36,8 @@ class Graph():
 
     def make_graph(self, year):
         # variable
-        output_name = os.path.join(self.output_path, "income_{}.pdf".format(
-            str(year)))
+        output_name = os.path.join(self.output_path,
+                                   "income_{}.pdf".format(str(year)))
         month_list = [12] + list(range(1, 12))
         month_list_label = range(1, 13)
 
@@ -68,13 +67,12 @@ class Graph():
 
         before = [0 for i in range(0, len(income_list[0]))]
         for i in range(0, len(self.keyword.index)):
-            ax.bar(
-                ran,
-                income_list[i],
-                width=width,
-                label="{} {}yen".format(self.keyword.loc[i, 'id'],
-                                        str(sum(income_list[i]))),
-                bottom=before)
+            ax.bar(ran,
+                   income_list[i],
+                   width=width,
+                   label="{} {}yen".format(self.keyword.loc[i, 'id'],
+                                           str(sum(income_list[i]))),
+                   bottom=before)
             if sum(before) == 0:
                 before = income_list[i]
             else:

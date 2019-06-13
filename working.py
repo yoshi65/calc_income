@@ -3,7 +3,7 @@
 #
 # FileName: 	working
 # CreatedDate:  2018-06-04 11:34:30 +0900
-# LastModified: 2018-10-12 11:42:26 +0900
+# LastModified: 2019-06-13 10:12:32 +0900
 #
 
 from datetime import datetime
@@ -56,12 +56,15 @@ class Working():
 
         # Convert to DataFormat
         Data = pd.DataFrame(events)
-        Data = Data[Data['summary'] == name].reset_index(drop=True)
+        try:
+            Data = Data[Data['summary'] == name].reset_index(drop=True)
+        except:
+            pass
 
         for i in range(len(Data.index)):
             start = Data.loc[i, 'start'].get(
-                'dateTime', Data.loc[i, 'start'].get('date')).replace(
-                    "T", " ")
+                'dateTime',
+                Data.loc[i, 'start'].get('date')).replace("T", " ")
             end = Data.loc[i, 'end'].get(
                 'dateTime', Data.loc[i, 'end'].get('date')).replace("T", " ")
             tdelta = datetime.strptime(end[:-6],
